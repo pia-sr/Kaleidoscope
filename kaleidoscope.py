@@ -6,7 +6,7 @@ from IPython.display import HTML
 
 
 #Amount of snowflakes
-amount = 4
+amount = 5
 #A list for the coordinates of each snowflake
 snow_list = []
 #A list for all the plotted coordinates
@@ -15,6 +15,20 @@ lines = []
 
     
 def main():
+    # user input
+    number = int(input("How many Koch snowflakes do you want in your kaleidosocope? 2, 4, 6, 8 or 10\n"))
+    while not(number == 2 or number == 4 or number == 6 or number == 8 or number == 10):
+        number = int(input("Please indicate how many snowflakes you want! Either 2, 4, 6, 8 or 10\n"))
+    global amount
+    amount = int(number / 2)
+    color = int(input("What color do you want for your kaleidoscope,%f?\n1 red,\n2 yellow,\n3 green,\n4 turquoise,\n5 blue or\n6 purple?\n"))
+    while color < 1 or color > 6:
+        color = int(input("Please indicate which colour you would like with a number from 1 to 6! "))
+    speed = int(input("How fast from 1 to 10 do you want your kaleidoscope to change? "))
+    while speed < 1 or speed > 10:
+        speed = int(input("Please indicate your preferred speed with a number from 1 to 10! "))
+    
+    
     #Settings for the plot
     plt.style.use("dark_background")
     fig, ax = plt.subplots()
@@ -34,16 +48,22 @@ def main():
     #The colour gets lighter with each line 
     for flakes in snow_list:
         c += 1
-        #l = ax.plot([],[], color = (1  ,1 - c*(1/(((amount * 2) +2))),1 - c*(1/(((amount * 2) +2)))))[0] #rote Version
-        #l = ax.plot([],[], color = (1 - c*(1/(((amount * 2) +2))), 1,1 - c*(1/(((amount * 2) +2)))))[0] #blaue Version
-        #l = ax.plot([],[], color = (1 - c*(1/(((amount * 2) +2))),1 - c*(1/(((amount * 2) +2))), 1))[0] #grüne Version
-        l = ax.plot([],[], color = (1 - c*(1/(((amount * 2) +2))),1, 1))[0] #türkise Version
-        #l = ax.plot([],[], color = (1,1 - c*(1/(((amount * 2) +2))), 1))[0] #lila Version
-        #l = ax.plot([],[], color = (1,1,1 - c*(1/(((amount * 2) +2)))))[0] #gelbe Version
+        if color == 1:
+            l = ax.plot([],[], color = (1  ,1 - c*(1/(((amount * 2) +2))),1 - c*(1/(((amount * 2) +2)))))[0] # rot
+        elif color == 2:
+            l = ax.plot([],[], color = (1,1,1 - c*(1/(((amount * 2) +2)))))[0] #gelb
+        elif color == 3: 
+             l = ax.plot([],[], color = (1 - c*(1/(((amount * 2) +2))), 1,1 - c*(1/(((amount * 2) +2)))))[0] #grün
+        elif color == 4:
+            l = ax.plot([],[], color = (1 - c*(1/(((amount * 2) +2))),1, 1))[0] #türkis
+        elif color == 5:
+            l = ax.plot([],[], color = (1 - c*(1/(((amount * 2) +2))),1 - c*(1/(((amount * 2) +2))), 1))[0] #blau
+        elif color == 6:
+            l = ax.plot([],[], color = (1,1 - c*(1/(((amount * 2) +2))), 1))[0] #lila
         lines.append(l)
     
 
-    anim = animation.FuncAnimation(fig, animate, init_func=init, frames=6, interval=600, blit= True)
+    anim = animation.FuncAnimation(fig, animate, init_func=init, frames=11, interval=1100-(speed*100), blit= True)
     anim.save("kaleidoscope.gif")
     
     
@@ -74,7 +94,10 @@ def animate(i):
     xList = []
     yList = []
     for triangle, k in snow_list:
-        k = i
+        if i < 7:
+            k = i
+        else:
+            k = 10 - i
         data = np.array(sn.snow(triangle, k))
         x, y = np.split(data, 2, axis=1)        
         xList.append(x)
