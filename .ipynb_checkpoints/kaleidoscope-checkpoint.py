@@ -71,7 +71,7 @@ def main():
     
 
     anim = animation.FuncAnimation(fig, animate, init_func=init, frames=10, interval=1100-(speed*100), blit= True)
-    anim.save("kaleidoscope.gif")
+    anim.save("kaleidoscope.gif", name)
     # for nomal python (doesn't work with jupyter lab)
     #plt.show()
     
@@ -130,8 +130,8 @@ def animate(i):
         if(k == 0):
             x_sorted = np.sort(np.concatenate(xList).ravel())
             y_sorted = np.sort(np.concatenate(yList).ravel())
-            plt.xlim(x_sorted[0]-((0.07*amount) * amount), x_sorted[-1]+ ((0.07*amount) * amount))
-            plt.ylim(y_sorted[0]-(((2**-(6-amount)) * (4))*amount), y_sorted[-1])
+            plt.xlim(x_sorted[0]-((0.07*amount) * amount), x_sorted[-1]+ ((0.07*amount) * amount **2))
+            plt.ylim(y_sorted[0]-(((2**-(6-amount)) * (4))*amount), y_sorted[-1] + 0.05)
     
     for lnum,line in enumerate(lines):
         line.set_data(xList[lnum], yList[lnum])
