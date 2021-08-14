@@ -6,6 +6,7 @@ from IPython.display import HTML
 import copy
 import math
 from PIL import Image
+import random
 
 
 #A list for the coordinates of each snowflake
@@ -14,15 +15,18 @@ snow_list = []
 lines = []
 rotate = False
 
+colour = 1
+
     
 def main():
+    global colour
     # user input
     global amount
     name = input("What's your name?")
     amount = int(input(name + ", how big do you want your kaleidosocope to be? You can choose from a number from 1 to 5\n"))
     while amount < 1 or amount > 5:
         amount = int(input("Please indicate the size of the kaleidoscope with a number from 1 to 5!"))
-    colour = int(input("What colour do you want for your kaleidoscope?\n1 red,\n2 yellow,\n3 green,\n4 turquoise,\n5 blue or\n6 purple?\n"))
+    colour = int(input("What colour do you want for your kaleidoscope?\n1 red,\n2 yellow,\n3 green,\n4 grey,\n5 blue or\n6 purple?\n"))
     while colour < 1 or colour > 6:
         colour = int(input("Please indicate which colour you would like with a number from 1 to 6! "))
     turn = input("Do you want the snowflake to rotate? Yes or No?\n")
@@ -54,18 +58,7 @@ def main():
     #The colour gets lighter with each line 
     for flakes in snow_list:
         c += 1
-        if colour == 1:
-            l = ax.plot([],[], color = (1  ,1 - c*(1/(((amount * 2) +2))),1 - c*(1/(((amount * 2) +2)))))[0] # rot
-        elif colour == 2:
-            l = ax.plot([],[], color = (1,1,1 - c*(1/(((amount * 2) +2)))))[0] #gelb
-        elif colour == 3: 
-             l = ax.plot([],[], color = (1 - c*(1/(((amount * 2) +2))), 1,1 - c*(1/(((amount * 2) +2)))))[0] #grün
-        elif colour == 4:
-            l = ax.plot([],[], color = (1 - c*(1/(((amount * 2) +2))),1, 1))[0] #türkis
-        elif colour == 5:
-            l = ax.plot([],[], color = (1 - c*(1/(((amount * 2) +2))),1 - c*(1/(((amount * 2) +2))), 1))[0] #blau
-        elif colour == 6:
-            l = ax.plot([],[], color = (1,1 - c*(1/(((amount * 2) +2))), 1))[0] #lila
+        l = ax.plot([],[], 1)[0]
         lines.append(l)
     
     
@@ -135,7 +128,20 @@ def animate(i):
     
     for lnum,line in enumerate(lines):
         line.set_data(xList[lnum], yList[lnum])
-    
+        global colour
+        if colour == 5:
+            line.set_color(color = (0,random.uniform(0, 0.2),random.uniform(0.2, 1))) #blau
+        elif colour == 3:
+            line.set_color(color = (0,random.uniform(0.6,0.9),random.uniform(0.2,0.6))) #grün
+        elif colour == 6:
+            line.set_color(color =(0.6,random.uniform(0,0.4), random.uniform(0,0.9))) #lila
+        elif colour == 1:
+            line.set_color(color = (1,random.uniform(0,0.3),random.uniform(0,0.7))) #rot
+        elif colour == 2:
+            line.set_color(color = (1,random.uniform(0.8,1),random.uniform(0.2,0.9))) #gelb
+        elif colour == 4:
+            val = random.uniform(0.1,0.9)
+            line.set_color(color = (val,val,val)) #grau
     
     return lines
         
