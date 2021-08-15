@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import matplotlib.image as im
 import snowflake as sn
-from IPython.display import HTML
 import copy
 import random
 
@@ -71,7 +71,7 @@ def main():
     
     # generate the animation and safe as gif
     anim = animation.FuncAnimation(fig, animate, init_func=init, frames=10, interval=1100-(speed*100), blit= True)
-    anim.save("kaleidoscope.gif")
+    anim.save(name + "s_Kaleidoscope.gif")
     #plt.show() # doesn't work in jupyter lab 
     
     print("You can find your personalized kaleidoscope in this folder! Have fun :)")
