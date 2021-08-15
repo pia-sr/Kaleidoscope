@@ -29,17 +29,19 @@ def main():
     name = input("What's your name? \n")
     amount = int(input(name + ", how complex do you want the kaleidoscope to be? You can choose from a number from 1 to 5\n"))
     while amount < 1 or amount > 5:
-        amount = int(input("Please indicate the complexity of your kaleidoscope with a number from 1 to 5!"))
+        amount = int(input("Please indicate the complexity of your kaleidoscope with a number from 1 to 5!\n"))
     
     # set colour theme
     global colour
     colour = int(input("Okay, now what colour do you want for your kaleidoscope?\n1 red,\n2 yellow,\n3 green,\n4 grey,\n5 blue or\n6 purple?\n"))
     while colour < 1 or colour > 6:
-        colour = int(input("Please indicate which colour you would like with a number from 1 to 6! "))
+        colour = int(input("Please indicate which colour you would like with a number from 1 to 6!\n"))
     
     # set rotation
     global rotate
     turn = input("Do you want the snowflake to rotate? Yes or No?\n")
+    while not (turn == "yes" or turn == "Yes" or turn == "no" or turn =="No"):
+        turn = input("Please answer with either 'yes' or 'no'!\n")
     if turn == "yes" or turn == "Yes":
         rotate = True
     else:
@@ -48,7 +50,7 @@ def main():
     # set speed
     speed = int(input("How fast from 1 to 10 do you want your kaleidoscope to change, " + name + "? \n"))
     while speed < 1 or speed > 10:
-        speed = int(input("Please indicate your preferred speed with a number from 1 to 10! "))
+        speed = int(input("Please indicate your preferred speed with a number from 1 to 10!\n"))
         
     print("I will generate your kaleidoscope now...")
    
@@ -61,20 +63,15 @@ def main():
 
     # fill snow_list with the coordinates relevant for the koch snowflakes
     snow_iterator(amount)
-      
-    
        
     # fill lines list with same amount of empty plots as triangles in snow_list
-    # the colour gets lighter with each line 
-    c = 0
     for flakes in snow_list:
-        c += 1
-        l = ax.plot([],[], 1)[0]
+        l = ax.plot([],[])[0]
         lines.append(l)
     
     # generate the animation and safe as gif
     anim = animation.FuncAnimation(fig, animate, init_func=init, frames=10, interval=1100-(speed*100), blit= True)
-    anim.save("kaleidoscope.gif", name)
+    anim.save("kaleidoscope.gif")
     #plt.show() # doesn't work in jupyter lab 
     
     print("You can find your personalized kaleidoscope in this folder! Have fun :)")
@@ -83,7 +80,6 @@ def main():
 # function to create the coordinates for each snowflake
 def snow_iterator(x):
     for i in range(x):
-        
         if(i>=3):
             snow_list.append([[[0.36- (2**(i*((2.1/(i+2))*i)))*0.35,0.15-(2**(i*((2.1/(i+2))*i)))*0.21],[0.54,0.45+(2**(i*((2.1/(i+2))*i)))*0.42],[0.72+(2**(i*((2.1/(i+2))*i)))*0.36,0.15-(2**(i*((2.1/(i+2))*i)))*0.21]],1])
             snow_list.append([[[0.42-(2**(i*((2.1/(i+2))*i)))*0.23,0.25],[0.6+(2**(i*((2.1/(i+2))*i)))*0.12,0.35+(2**(i*((2.1/(i+2))*i)))*0.21],[0.6+(2**(i*((2.1/(i+2))*i)))*0.12,0.15-(2**(i*((2.1/(i+2))*i)))*0.21]],1])
@@ -126,7 +122,7 @@ def animate(i):
     if rotate == True:  
         rotation()
           
-    # lists for ?
+    # lists for x and y coordinates which are used for the plotting
     xList = []
     yList = []
     
@@ -145,8 +141,8 @@ def animate(i):
         xList.append(x)
         yList.append(y)
         
-        # ?
-        if(k == 0):
+        # sets the limit of the x- and y-axes for the given amount of snowflakes
+        if(i == 0):
             x_sorted = np.sort(np.concatenate(xList).ravel())
             y_sorted = np.sort(np.concatenate(yList).ravel())
             plt.xlim(x_sorted[0]-((0.07*amount) * amount), x_sorted[-1]+ ((0.07*amount) * amount **2))
@@ -157,7 +153,6 @@ def animate(i):
         line.set_data(xList[lnum], yList[lnum])
         
         global colour
-        
         
         if colour == 1:
             line.set_color(color = (1,random.uniform(0,0.3),random.uniform(0,0.7))) #rot
@@ -173,7 +168,6 @@ def animate(i):
         elif colour == 6:
             line.set_color(color =(0.6,random.uniform(0,0.4), random.uniform(0,0.9))) #lila
         
-    
     return lines
         
     
