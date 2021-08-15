@@ -33,8 +33,8 @@ def main():
     
     # set colour theme
     global colour
-    colour = int(input("Okay, now what colour do you want for your kaleidoscope?\n1 red,\n2 yellow,\n3 green,\n4 grey,\n5 blue or\n6 purple?\n"))
-    while colour < 1 or colour > 6:
+    colour = int(input("Okay, now what colour do you want for your kaleidoscope?\n1 red,\n2 yellow,\n3 green,\n4 grey,\n5 blue, \n6 purple or\n7 multicoloured?\n"))
+    while colour < 1 or colour > 7:
         colour = int(input("Please indicate which colour you would like with a number from 1 to 6!\n"))
     
     # set rotation
@@ -164,9 +164,11 @@ def animate(i):
             val = random.uniform(0.1,0.9)
             line.set_color(color = (val,val,val)) #grau    
         elif colour == 5:
-            line.set_color(color = (0,random.uniform(0, 0.2),random.uniform(0.2, 1))) #blau   
+            line.set_color(color = (0,random.uniform(0.1, 0.3),random.uniform(0.5, 1))) #blau   
         elif colour == 6:
             line.set_color(color =(0.6,random.uniform(0,0.4), random.uniform(0,0.9))) #lila
+        elif colour == 7:
+            line.set_color(color = (random.uniform(0.2,0.9),random.uniform(0.2,0.9),random.uniform(0.2,0.9)))
         
     return lines
         
